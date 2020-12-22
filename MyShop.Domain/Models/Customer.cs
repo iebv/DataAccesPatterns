@@ -12,19 +12,16 @@ namespace MyShop.Domain.Models
         public string City { get; set; }
         public string PostalCode { get; set; }
         public string Country { get; set; }
-        public IValueHolder<byte[]> ProfilePictureValueHolder { get; set; }
+        public Lazy<byte[]> ProfilePictureValueHolder { get; set; }
       
         public byte[] ProfilePicture {
             get 
             {
-                return ProfilePictureValueHolder.GetValue(Name);
+                return ProfilePictureValueHolder.Value;
 
             }
-         
-            
+          
         }
-
-
 
         public Customer()
         {

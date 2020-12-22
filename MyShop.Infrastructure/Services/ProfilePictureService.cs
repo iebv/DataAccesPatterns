@@ -2,8 +2,9 @@
 using System.Text;
 
 // We want this moved to the Infrastructure project!
-namespace MyShop.Infrastructure
+namespace MyShop.Infrastructure.Services
 {
+
     public class ProfilePictureService
     {
         // Should be async when doing an API call

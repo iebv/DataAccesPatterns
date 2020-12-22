@@ -1,5 +1,6 @@
 ﻿using MyShop.Domain.Lazy;
 using MyShop.Domain.Models;
+using MyShop.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,9 @@ namespace MyShop.Infrastructure.Repositories
         {
             return base.All().Select(c =>
             {
-                c.ProfilePictureValueHolder = new ValueHolder<byte[]>((parameter) =>
+                c.ProfilePictureValueHolder = new Lazy<byte[]>(() =>
                 {
-                    return ProfilePictureService.GetFor(parameter.ToString());
+                    return ProfilePictureService.GetFor(c.Name);
                 });
                 return c;
             });
@@ -31,20 +32,20 @@ namespace MyShop.Infrastructure.Repositories
         {
             return base.Find(predicate).Select(c =>
             {
-                c.ProfilePictureValueHolder = new ValueHolder<byte[]>((parameter) =>
+                c.ProfilePictureValueHolder = new Lazy<byte[]>(() =>
                 {
-                    return ProfilePictureService.GetFor(parameter.ToString());
+                    return ProfilePictureService.GetFor(c.Name);
                 });
-                return c; 
-            });
+                return c;
+            }); ;
         }
 
         public override Customer Get(Guid id)
         {
             var customer = base.Get(id);
-            customer.ProfilePictureValueHolder = new ValueHolder<byte[]>((parameter) =>
+            customer.ProfilePictureValueHolder = new Lazy<byte[]>(() =>
             {
-                return ProfilePictureService.GetFor(parameter.ToString());
+                return ProfilePictureService.GetFor(customer.Name);
             });
 
             return customer;
